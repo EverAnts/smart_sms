@@ -60,7 +60,6 @@ SmartSMS.configure do |config|
   config.api_key = nil # 授权 API KEY
   config.api_version = :v1 # API 的版本, 当前仅有v1
   config.template_id = '2' # 指定发送信息时使用的模板
-  config.template_value = [:code, :company] # 用于指定信息文本中的可替换内容, 数组形势: [:code, :company]
   config.page_num = 1 # 获取信息时, 指定默认的页数
   config.page_size = 20 # 获取信息时, 一页包含信息数量
   config.company = '云片网' # 默认公司名称
@@ -70,6 +69,7 @@ SmartSMS.configure do |config|
   config.verification_code_algorithm = :simple # 提供三种形式的验证码: `:simple, :middle, :complex`
 end
 ```
+
 
 ##### API 汇总(ActiveRecord)
 
@@ -132,6 +132,10 @@ SmartSMS.configure { |c| c.api_key = 'fure8423n4324uoj432n4324' }
 SmartSMS.deliver 13522948742, 'SmartSMS WOW!'
 SmartSMS.deliver 13522948742, 'SmartSMS WOW!', tpl_id: 1
 SmartSMS.deliver 13522948742, 'SmartSMS WOW!', method: :general # 使用通用短信发送方式, 需申请
+
+# 发送自定义短信内容
+SmartSMS.deliver "1388872777", "something fake" , name: "test",order_id: "123456", tpl_id: 39521  
+
 
 # 根据sid来查询短信记录
 SmartSMS.find_by_sid 13232

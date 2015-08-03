@@ -22,9 +22,16 @@ module SmartSMS
         if options[:method] == :general
           Request.post 'sms/send.json', mobile: phone, text: content, extend: options[:extend]
         else
-          options[:code] = content
-          message = parse_content options
           tpl_id = options[:tpl_id] || SmartSMS.config.template_id
+
+          # default template
+          if tpl_id == SmartSMS.config.template_id
+            options[:code] = content 
+            options[:company] ||= SmartSMS.config.company
+          end
+          
+          message = parse_content options
+          puts message
           Request.post 'sms/tpl_send.json', tpl_id: tpl_id, mobile: phone, tpl_value: message
         end
       end
@@ -87,11 +94,12 @@ module SmartSMS
       # 生成信息发送内容
       #
       def parse_content(options = {})
-        options[:code] ||= ''
-        options[:company] ||= SmartSMS.config.company
-        SmartSMS.config.template_value.map do |key|
-          "##{key}#=#{options[key]}"
-        end.join('&')
+        options.delete(:tpl_id)
+
+        options.map do |key, value|
+          "##{key}#=#{value}" 
+        end.join("&")
+        
       end
     end
   end
