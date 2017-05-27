@@ -19,20 +19,18 @@ module SmartSMS
       # * method 如若要使用通用短信接口, 需要 :method => :general
       # * tpl_id 选择发送短信的模板, 默认是2
       def deliver(phone, content, options = {})
-        if options[:method] == :general
-          Request.post 'sms/send.json', mobile: phone, text: content, extend: options[:extend]
+      	if options[:method] == :general
+          Request.post 'sms/tpl_send.json', mobile: phone, text: content, extend: options[:extend]
         else
           tpl_id = options[:tpl_id] || SmartSMS.config.template_id
-
-          # default template
+					# default template
           if tpl_id == SmartSMS.config.template_id
-            options[:code] = content 
-            options[:company] ||= SmartSMS.config.company
+          	options[:code] = content 
+           options[:company] ||= SmartSMS.config.company
           end
-          
           message = parse_content options
           puts message
-          Request.post 'sms/tpl_send.json', tpl_id: tpl_id, mobile: phone, tpl_value: message
+          result = Request.post 'sms/tpl_single_send.json',mobile: phone,tpl_id: tpl_id,tpl_value: message
         end
       end
 
