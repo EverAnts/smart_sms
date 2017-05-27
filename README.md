@@ -4,6 +4,8 @@ SmartSMS
 [![Code Climate](https://codeclimate.com/github/lyfeyaj/smart_sms/badges/gpa.svg)](https://codeclimate.com/github/lyfeyaj/smart_sms)
 
 提供在中国境内发送短信([云片网络](http://www.yunpian.com)), 校验, 集成 ActiveRecord
+更新版本V2
+
 
 功能特点
 --------
